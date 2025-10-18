@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        SCANNER_HOME = tool 'sonarqube-scanner'
+        SCANNER_HOME = tool 'sonar-scanner'
         DOCKER_IMAGE = 'moizaman/webapplication:latest'
         EKS_CLUSTER_NAME = 'Projects'
         AWS_REGION = 'us-east-1'
@@ -29,9 +29,10 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube-server') {
-                    sh ''' 
-                    $SCANNER_HOME/bin/sonarqube-server \
+                withSonarQubeEnv('sonar-server') {
+                    // We use the full path from the SCANNER_HOME variable
+                    sh '''  
+                    $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectName=web \
                         -Dsonar.projectKey=web
                     '''
@@ -81,7 +82,7 @@ pipeline {
                     withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
                         sh ''' 
                         echo "Building Docker image..."
-                        docker build --no-cache -t $DOCKER_IMAGE . webapplication
+                        docker build -t $DOCKER_IMAGE .
 
                         echo "Pushing Docker image to Docker Hub..."
                         docker push $DOCKER_IMAGE
@@ -105,8 +106,7 @@ pipeline {
                     kubectl config view
 
                     echo "Deploying application to EKS..."
-                    kubectl apply -f k8s/deployment.yml
-                    kubectl apply -f k8s/service.yml
+                    kubectl apply -f k8s/deployment.yaml
 
                     echo "Verifying deployment..."
                     kubectl get pods
