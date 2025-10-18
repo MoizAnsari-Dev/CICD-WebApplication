@@ -1,21 +1,38 @@
+# k8s/deployment.yml
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-deployment
-  labels:
-    app: web-application
+  name: webapplication
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: web-application
+      app: webapplication
   template:
     metadata:
       labels:
-        app: web-application
+        app: webapplication
     spec:
       containers:
-      - name: webapplication-container
-        image: moizaman/webapplication:latest  # Replace with your Docker image
+      - name: webapplication
+        image: moizaman/webapplication:latest
         ports:
-        - containerPort: 5173  # Replace with the port your app runs on
+        - containerPort: 5173
+        env:
+        - name: NODE_ENV
+          value: "production"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5173
+    protocol: TCP
+  selector:
+    app: webapplication
