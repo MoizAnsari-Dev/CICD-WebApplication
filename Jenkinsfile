@@ -30,13 +30,13 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube-server') {
-            withEnv(["PATH+SONAR=${tool 'sonar-scanner'}/bin"]) {
-                sh '''
-                    sonar-scanner \
-                        -Dsonar.projectKey=webapplication \
-                        -Dsonar.projectName=webapplication \
-                        -Dsonar.sources=.
-                '''
+            sh '''
+                echo "Running SonarQube Scanner..."
+                sonarqube-server \
+                    -Dsonar.projectKey=webapplication \
+                    -Dsonar.projectName=webapplication \
+                    -Dsonar.sources=.
+            '''
                 }
             }
         }
