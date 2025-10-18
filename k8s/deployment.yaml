@@ -18,7 +18,7 @@ spec:
       - name: webapplication
         image: moizaman/webapplication:latest
         ports:
-        - containerPort: 5173
+        - containerPort: 80
         env:
         - name: NODE_ENV
           value: "production"
@@ -32,7 +32,8 @@ spec:
   type: LoadBalancer
   ports:
   - port: 80
-    targetPort: 5173
+    targetPort: 80
     protocol: TCP
   selector:
     app: webapplication
+
