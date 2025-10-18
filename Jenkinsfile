@@ -5,13 +5,13 @@ pipeline {
 
     tools {
         jdk 'jdk17'
-        nodejs 'node23'
+        nodejs 'nodeJS25'
     }
 
     environment {
-        SCANNER_HOME = tool 'sonar-scanner'
-        DOCKER_IMAGE = 'kastrov/bms:latest'
-        EKS_CLUSTER_NAME = 'kastro-eks'
+        SCANNER_HOME = tool 'sonarqube-scanner'
+        DOCKER_IMAGE = 'moizaman/webapplication:latest'
+        EKS_CLUSTER_NAME = 'Projects'
         AWS_REGION = 'us-east-1'
     }
 
@@ -24,7 +24,7 @@ pipeline {
 
         stage('Checkout from Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/KastroVKiran/Book-My-Show.git'
+                git branch: 'main', url: ''
                 sh 'ls -la'  // Verify files after checkout
             }
         }
