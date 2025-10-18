@@ -29,15 +29,12 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube-server') { // name of your SonarQube config
-            withEnv(["PATH+SONAR=${tool 'sonar-scanner'}/bin"]) { // link scanner tool
-                sh '''
-                    echo "Running SonarQube Scanner..."
-                    sonar-scanner \
-                        -Dsonar.projectKey=webapplication \
-                        -Dsonar.projectName=webapplication \
-                        -Dsonar.sources=.
-                '''
+                withSonarQubeEnv('sonarqube-server') {
+                    sh ''' 
+                    $SCANNER_HOME/bin/sonarqube-server \
+                        -Dsonar.projectName=web \
+                        -Dsonar.projectKey=web
+                    '''
                 }
             }
         }
