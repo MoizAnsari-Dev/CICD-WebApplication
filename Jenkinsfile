@@ -30,11 +30,12 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube-server') {
-                    sh ''' 
-                    $SCANNER_HOME/bin/sonarqube-scanner \
-                        -Dsonar.projectName=webapplication \
-                        -Dsonar.projectKey=webapplication
-                    '''
+                    sh '''
+                sonar-scanner \
+                -Dsonar.projectKey=webapplication \
+                -Dsonar.projectName=webapplication \
+                -Dsonar.sources=.
+            '''
                 }
             }
         }
