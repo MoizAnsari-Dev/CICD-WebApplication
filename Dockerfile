@@ -1,17 +1,26 @@
-FROM node:20-alpine
+# === BUILD STAGE ===
+FROM node:20-alpine AS build
+
 WORKDIR /app
 
-# Install dependencies
-COPY package.json package-lock.json* ./
+# Install deps
+COPY package*.json ./
 RUN npm ci
 
-# Copy source
+# Copy source code
 COPY . .
 
-# Vite dev server runs on 5173 by default
-EXPOSE 5173
+# Build static files
+RUN npm run build
 
-# For Windows/WSL, force polling if needed:
-# ENV CHOKIDAR_USEPOLLING=true
+# === SERVE STAGE ===
+FROM nginx:alpine
 
-CMD ["npm", "run", "dev", "--", "--host"]
+# Copy built files
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port 80 (standard for web servers)
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
