@@ -23,17 +23,3 @@ spec:
         - name: NODE_ENV
           value: "production"
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: web-service
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 80
-    protocol: TCP
-  selector:
-    app: webapplication
-
