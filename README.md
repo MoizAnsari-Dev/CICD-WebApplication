@@ -164,11 +164,38 @@ docker ps
 - Build and push Docker image to DockerHub  
 - Deploy and access app via container on port **3000**
 
-### 🔹 **Part II – Kubernetes Deployment**
-- Create IAM user & EKS Cluster using `eksctl`
-- Configure Jenkins to deploy to EKS
-- Deploy pods and services using `deployment.yml` and `service.yml`
+### 🔹 **Part II – Jenkins Pipeline**
+- 🧰 Tools Section
+  ```
+    tools {
+      jdk 'jdk17'
+      nodejs 'node25'
+  }
 
+  ```
+  - 🌍 Environment Variables
+    ```
+    environment {
+    SCANNER_HOME = tool 'sonar-scanner'
+    DOCKER_IMAGE = 'docker_userName/container_name:latest'
+    EKS_CLUSTER_NAME = 'Cluster_name'
+    AWS_REGION = 'us-east-1'
+    }
+    ```
+      - SCANNER_HOME → SonarQube scanner installation path.
+
+      - DOCKER_IMAGE → The image to build and push.
+
+      - EKS_CLUSTER_NAME → The name of your Kubernetes cluster on AWS.
+
+      - AWS_REGION → AWS region for CLI commands.
+    - 🧹 Stage 1: Clean Workspace
+    ```
+    cleanWs()
+
+    ```
+      - Clears any previous build files — prevents stale artifacts or conflicts.
+    
 ---
 
 ## 🧭 Step-by-Step Deployment
