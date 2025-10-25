@@ -221,6 +221,48 @@ docker ps
       - Waits for SonarQube to finish analysis and report a “Pass/Fail” result.
 
       - Uses the token credential 'Sonar-token'.
+  - 📦 Stage 5: Install Dependencies
+    ```
+    stage('Install Dependencies') {
+        steps {
+            sh '''
+            cd FolderName
+            ls -la  # Verify package.json exists
+            if [ -f package.json ]; then
+                rm -rf node_modules package-lock.json  # Remove old dependencies
+                npm install  # Install fresh dependencies
+            else
+                echo "Error: package.json not found "
+                exit 1
+            fi
+            '''
+        }
+    }
+    ```
+  - 🧱 Stage 6: Trivy File System Scan
+    ```
+    trivy fs . > trivyfs.txt
+    ```
+  - 🐳 Stage 7: Docker Build & Push
+    ```
+    docker build --no-cache -t $DOCKER_IMAGE .
+    docker push $DOCKER_IMAGE
+
+    ```
+  - ☁️ Stage 8: Deploy to AWS EKS
+    ```
+    aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+    kubectl apply -f k8s/deployment.yml
+    kubectl apply -f k8s/service.yml
+
+    ```
+      - Authenticates to AWS using Jenkins credentials.
+
+      - Updates kubeconfig to target your EKS cluster.
+
+      - Deploys app manifests (deployment.yml and service.yml) to EKS.
+
+      - Finally, verifies with: 
 ---
 
 ## 🧭 Step-by-Step Deployment
@@ -244,6 +286,8 @@ docker ps
   ```bash
   kubectl get pods
   kubectl get svc
+
+- 
 ---
 ## 🌟 Highlights
 
