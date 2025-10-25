@@ -195,7 +195,32 @@ docker ps
 
     ```
       - Clears any previous build files — prevents stale artifacts or conflicts.
-    
+  - 🧾 Stage 2: Checkout from Git
+    ```
+    git branch: 'main', url: 'https://github.com/MoizAnsari-Dev/CICD-WebApplication.git'
+    ```
+  - 🔍 Stage 3: SonarQube Analysis
+    ```
+    withSonarQubeEnv('sonar-server') {
+    sh '''
+    $SCANNER_HOME/bin/sonar-scanner \
+        -Dsonar.projectName=Project_Name \
+        -Dsonar.projectKey=Project_Name
+    '''
+    }
+    ```
+      - 'sonar-server' must match the name of your SonarQube configuration in Manage Jenkins → Configure System → SonarQube servers.
+
+      - Requires a sonar-project.properties file or these CLI options to define the project.
+   
+  - 🧠 Stage 4: Quality Gate
+    ```
+    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+
+    ```
+      - Waits for SonarQube to finish analysis and report a “Pass/Fail” result.
+
+      - Uses the token credential 'Sonar-token'.
 ---
 
 ## 🧭 Step-by-Step Deployment
