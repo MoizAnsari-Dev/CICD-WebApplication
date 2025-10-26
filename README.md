@@ -17,13 +17,26 @@ This project demonstrates real-world DevOps automation—from code commit to dep
 ---
 
 ## 🧠 Overview
-This project automates the complete deployment lifecycle of a **Book My Show Clone App**:
+This project automates the complete deployment lifecycle of a **WebApplication**:
 1. Source code is fetched from GitHub.  
 2. Code quality is checked using **SonarQube**.  
 3. Vulnerabilities are scanned with **Trivy**.  
 4. Application is containerized using **Docker**.  
 5. Image is pushed to **DockerHub**.  
 6. Deployment is automated via **Jenkins** pipeline to **EKS (Kubernetes)**.
+## SonarQube Analysis
+![SonarQube](https://raw.githubusercontent.com/MoizAnsari-Dev/CICD-WebApplication/refs/heads/main/images/Screenshot%202025-10-18%20170404.png)
+![SonarQube](https://raw.githubusercontent.com/MoizAnsari-Dev/CICD-WebApplication/refs/heads/main/images/Screenshot%202025-10-18%20170502.png)
+![SonarQube](https://raw.githubusercontent.com/MoizAnsari-Dev/CICD-WebApplication/refs/heads/main/images/Screenshot%202025-10-18%20173701.png)
+## Jenkins CICD Pipeline
+![Jenkins](https://github.com/MoizAnsari-Dev/CICD-WebApplication/blob/main/images/Screenshot%202025-10-18%20183121.png)
+## K8s Services
+![Kubernites LoadBalancer](https://github.com/MoizAnsari-Dev/CICD-WebApplication/blob/main/images/K8s%20LoadBalancer.png?raw=true)
+## AWS loadbalancer
+![AWS LoadBalancer](https://github.com/MoizAnsari-Dev/CICD-WebApplication/blob/main/images/aws.png?raw=true)
+## Live WebApplication
+![Live Demo](https://github.com/MoizAnsari-Dev/CICD-WebApplication/blob/main/images/live.png?raw=true)
+
 
 ---
 
